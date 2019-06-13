@@ -1,38 +1,71 @@
 <template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-toolbar>
+  <v-app id="inspire">
+    <v-navigation-drawer
+      v-model="drawer"      
+      app
+    >
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="title">
+          Aplicación
+          
+        </v-list-item-title>
 
+        <v-list-item-subtitle>
+          Menú
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+      <v-divider></v-divider>
+      <v-list
+        dense
+        nav>
+        <v-list-item @click="go('')">
+          <v-list-item-action>
+            <v-icon>home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="go('about')">
+          <v-list-item-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Contact</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar color="light-blue" dark fixed app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-title>Menu</v-app-bar-title>
+    </v-app-bar>
     <v-content>
-      <HelloWorld/>
+      <v-container fluid fill-height>
+       <router-view></router-view>
+      </v-container>
     </v-content>
+    <v-footer color="light-blue" app>
+      <span class="white--text">&copy; 2017</span>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  },
-  data () {
-    return {
-      //
+  export default {
+    data: () => ({
+      drawer: null
+    }),
+    props: {
+      source: String
+    },
+    methods:{
+      go(ruta){
+        this.$router.push('/'+ruta)
+      }  
     }
   }
-}
+  
 </script>
