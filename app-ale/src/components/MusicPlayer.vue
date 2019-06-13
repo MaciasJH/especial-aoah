@@ -1,11 +1,29 @@
 <template>
-<aplayer autoplay
-  :music="{
-    title: 'secret base~君がくれたもの~',
-    artist: 'Silent Siren',
-    src: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.mp3',
-    pic: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.jpg'
-  }"
-/>
+<div>  
+  <youtube :video-id="videoId" ref="youtube" @playing="playing"></youtube>
+<button @click="playVideo">play</button>
+</div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      videoId: 'lG0Ys-2d4MA'
+    }
+  },
+  methods: {
+    playVideo() {
+      this.player.playVideo()
+    },
+    playing() {
+      console.log('we are watching!!!')
+    }
+  },
+  computed: {
+    player() {
+      return this.$refs.youtube.player
+    }
+  }
+}
+</script>
