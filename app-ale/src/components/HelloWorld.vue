@@ -5,15 +5,31 @@
       wrap
     >
       <v-flex xs12>
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        ></v-img>
+        <template>
+          <v-card
+            elevation="24"
+            max-width="800"
+            class="mx-auto"
+            >
+            <v-system-bar lights-out dark></v-system-bar>
+            <v-carousel
+              cycle
+              height="500">
+              <v-carousel-item
+                v-for="(item,i) in items"
+                :key="i"
+                :src="item.src"
+                reverse-transition="fade-transition"
+                transition="fade-transition"              
+              ></v-carousel-item>
+            </v-carousel>
+            <v-system-bar lights-out dark></v-system-bar>
+          </v-card>
+          </template>
       </v-flex>
 
       <v-flex mb-4>
+        <br>
         <h1 class="display-2 font-weight-bold mb-3">
           Welcome to Vuetify
         </h1>
@@ -137,6 +153,20 @@ export default {
         href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
       },
     ],
+    items: [
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+          },
+        ],
   }),
 };
 </script>

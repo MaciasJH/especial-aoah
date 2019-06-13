@@ -4,14 +4,14 @@
       v-model="drawer"      
       app
     >
-    <v-list-item>
+    <v-list-item style="background-color: #0086c3">
       <v-list-item-content>
-        <v-list-item-title class="title">
+        <v-list-item-title class="title" style="color: white">
           Aplicación
           
         </v-list-item-title>
 
-        <v-list-item-subtitle>
+        <v-list-item-subtitle style="color: white">
           Menú
         </v-list-item-subtitle>
       </v-list-item-content>
@@ -26,6 +26,14 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="go('music')">
+          <v-list-item-action>
+            <v-icon>library_music</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Musica</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="go('about')">
