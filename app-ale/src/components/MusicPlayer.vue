@@ -1,8 +1,4 @@
 <template>
-<v-card
-  elevation="24"
-  max-width="480"
-  class="mx-auto">  
   <youtube 
     :video-id="videoId" 
     ref="youtube" 
@@ -10,12 +6,6 @@
     fitParent
     >
   </youtube>
-  <v-btn
-      v-on="playVideo()"
-      class="mt-5"
-      dark
-    >
-</v-card>
 </template>
 
 <script>
@@ -30,7 +20,6 @@ export default {
       this.player.playVideo()
     },
     playing() {
-      console.log('we are watching!!!')
     }
   },
   computed: {
