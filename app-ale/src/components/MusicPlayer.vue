@@ -26,21 +26,25 @@
         <v-list>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Reproduciendo. . .</v-list-item-title>
+              <v-list-item-title v-if="repro">Reproduciendo. . .</v-list-item-title>
+              <v-list-item-title v-if="!repro">En pausa. . .</v-list-item-title>
               <v-list-item-subtitle>{{titulo}}</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-spacer></v-spacer>
 
             <v-list-item-icon>
-              <v-btn icon>
+              <v-btn @click="ant()" icon>
                 <v-icon>fast_rewind</v-icon>
               </v-btn>
             </v-list-item-icon>
 
             <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
-              <v-btn icon>
+              <v-btn v-if="repro" @click="pausa()" icon>
                 <v-icon>pause</v-icon>
+              </v-btn>
+              <v-btn v-if="!repro" @click="play()" icon>
+                <v-icon>play_arrow</v-icon>
               </v-btn>
             </v-list-item-icon>
 
@@ -48,7 +52,7 @@
               class="ml-0"
               :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
             >
-              <v-btn icon>
+              <v-btn @click="sig()" icon>
                 <v-icon>fast_forward</v-icon>
               </v-btn>
             </v-list-item-icon>
@@ -71,6 +75,8 @@ const PostsRepository = RepositoryFactory.get('videos')
 export default {
   data() {
     return {
+      repro: false,
+      index: 0,
       titulo: '',
       apikey: 'AIzaSyAgH8UJ-G09n-qxUfndVVq7b58HGj5BfJ8',
       videoList: [
@@ -87,30 +93,61 @@ export default {
     }
   },
   created(){
-    this.videoId = this.videoList[0].videoId
-    this.fetch()
+    this.fetchPlaylist()
   },
   methods: {
-    async fetch(){
+    async fetchVideo(){
       const { data } = await PostsRepository.getVideo(this.videoId, this.apikey)
       // const { data } = await VidRepos.get()
       this.titulo = data.items[0].snippet.title
       console.log(data.items[0].snippet.title)
     },
+    async fetchPlaylist(){
+      const { data } = await PostsRepository.getPlaylist()
+      // const { data } = await VidRepos.get()
+      // this.titulo = data.items[0].snippet.title
+      this.videoList=data      
+      this.shuffle(this.videoList)
+      console.log(this.videoList[0].videoId)
+    },
+    sig(){
+      if (this.index < this.videoList.length-1) {
+        this.index=this.index+1
+      }
+      else{
+        this.shuffle(this.videoList)
+      }
+      console.log(this.videoList[this.index].videoId)
+      this.videoId = this.videoList[this.index].videoId
+      this.fetchVideo()
+    },
+    ant(){
+      if (this.index >0) {
+        this.index--
+      }
+      this.videoId = this.videoList[this.index].videoId
+      this.fetchVideo()
+    },
+    pausa(){
+      this.repro=false;
+      this.player.pauseVideo()
+    },
+    play(){
+      this.repro=true;
+      this.player.playVideo()
+    },
     ready (event) {
       console.log(event)
       this.player = event.target
-      // this.player.playVideo()
+      this.fetchVideo()
     },
     playing(event) {
-      console.log("Hola")
     },
     change () {
       // when you change the value, the player will also change.
       // If you would like to change `playerVars`, please change it before you change `videoId`.
       // If `playerVars.autoplay` is 1, `loadVideoById` will be called.
       // If `playerVars.autoplay` is 0, `cueVideoById` will be called.
-      this.videoId = this.videoList[1].videoId
       },    
     pause () {
       this.player.pauseVideo();
@@ -120,7 +157,17 @@ export default {
     },
     ended (event) {
       console.log(event)
-      this.videoId = this.videoList[1].videoId
+      this.videoId = this.videoList[this.index+1].videoId
+      
+    },
+    shuffle(arr){
+      for (let i = arr.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      this.videoList = arr
+      this.index = 0
+      this.videoId = this.videoList[this.index].videoId
     }
   }
 }

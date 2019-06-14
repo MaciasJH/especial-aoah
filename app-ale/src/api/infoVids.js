@@ -1,4 +1,5 @@
 import repos from './repos'
+import PlayListRep from './PlaylistRepos'
 
 const resource = "/videos"
 const part = "snippet,contentDetails,statistics,status"
@@ -12,6 +13,9 @@ export default {
     getPost(postId) {
         return Repository.get(`${resource}/${postId}`);
       },
+    getPlaylist(){
+        return PlayListRep.get()
+    },
     
       createPost(payload) {
         return Repository.post(`${resource}`, payload);
