@@ -1,19 +1,14 @@
 <template>
-<div>
-    <youtube :videoId="videoId" @stop="stop" @playing="playing"
-    :player-width="130"
-    :player-height="100"
-    @ready="ready"
-    @ended="ended"
-    ></youtube>
+<div class="text-xs-center">
     <v-bottom-sheet inset>
       <template v-slot:activator="{ on }">
         <v-btn
-          color="red"
+          color="#004c8c"
           dark
           v-on="on"
         >
-          Open Player
+          Reproductor
+          <v-icon>music_note</v-icon>
         </v-btn>
       </template>
       <v-card tile>
@@ -31,8 +26,12 @@
               <v-list-item-subtitle>{{titulo}}</v-list-item-subtitle>
             </v-list-item-content>
 
-            <v-spacer></v-spacer>
-
+                <youtube :videoId="videoId" @stop="stop" @playing="playing"
+    :player-width="1"
+    :player-height="1"
+    @ready="ready"
+    @ended="ended"
+    ></youtube>
             <v-list-item-icon>
               <v-btn @click="ant()" icon>
                 <v-icon>fast_rewind</v-icon>

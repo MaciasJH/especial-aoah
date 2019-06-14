@@ -36,6 +36,30 @@
             <v-list-item-title>Musica</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="go('recuerdos')">
+          <v-list-item-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Recuerdos</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="go('videos')">
+          <v-list-item-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Videos</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="go('estad')">
+          <v-list-item-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Estadisticas</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>                        
         <v-list-item @click="go('about')">
           <v-list-item-action>
             <v-icon>contact_mail</v-icon>
@@ -56,16 +80,23 @@
       </v-container>
     </v-content>
     <v-footer color="light-blue" app>
-      <span class="white--text">&copy; 2017</span>
+       <v-layout column align-center justify-center>
+      <music-player></music-player>
+       </v-layout>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import MusicPlayer from './components/MusicPlayer'
+
   export default {
     data: () => ({
       drawer: null
     }),
+    components: {
+     MusicPlayer,
+    },
     props: {
       source: String
     },
