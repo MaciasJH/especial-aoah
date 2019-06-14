@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import MusicMain from '../components/MusicPlayer';
+import MusicMain from '../components/MusicCard';
 
 export default {
   components: {

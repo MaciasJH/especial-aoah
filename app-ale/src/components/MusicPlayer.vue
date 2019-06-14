@@ -99,7 +99,6 @@ export default {
       const { data } = await PostsRepository.getVideo(this.videoId, this.apikey)
       // const { data } = await VidRepos.get()
       this.titulo = data.items[0].snippet.title
-      console.log(data.items[0].snippet.title)
     },
     async fetchPlaylist(){
       const { data } = await PostsRepository.getPlaylist()
@@ -107,7 +106,6 @@ export default {
       // this.titulo = data.items[0].snippet.title
       this.videoList=data      
       this.shuffle(this.videoList)
-      console.log(this.videoList[0].videoId)
     },
     sig(){
       if (this.index < this.videoList.length-1) {
@@ -116,7 +114,6 @@ export default {
       else{
         this.shuffle(this.videoList)
       }
-      console.log(this.videoList[this.index].videoId)
       this.videoId = this.videoList[this.index].videoId
       this.fetchVideo()
     },
@@ -136,7 +133,6 @@ export default {
       this.player.playVideo()
     },
     ready (event) {
-      console.log(event)
       this.player = event.target
       this.fetchVideo()
     },
@@ -155,7 +151,6 @@ export default {
       this.player.stopVideo();
     },
     ended (event) {
-      console.log(event)
       this.videoId = this.videoList[this.index+1].videoId
       
     },
