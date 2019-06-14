@@ -22,12 +22,16 @@
       <v-btn
         icon
         color="#004c8c"
+        :disabled="ini"
+        @click="ant()"
       >
         <v-icon>chevron_left</v-icon>
       </v-btn>
       <v-btn
         icon
         color="#004c8c"
+        :disabled="fini"
+        @click="sig()"
       >
         <v-icon>chevron_right</v-icon>
       </v-btn>
@@ -60,6 +64,8 @@ export default {
   data() {
     return {
       repro: false,
+      ini: true,
+      fini: false,
       index: 0,
       video: {
         titulo: '',
@@ -107,7 +113,9 @@ export default {
         this.index=this.index+1
       }
       else{
+        this.fini=true;
       }
+      this.ini=false;
       this.video.videoId = this.videoList[this.index].videoId
       this.fetchVideo()
     },
@@ -115,6 +123,10 @@ export default {
       if (this.index >0) {
         this.index--
       }
+      if(this.index ==0){
+        this.ini=true
+      }
+      this.fini=false;
       this.video.videoId = this.videoList[this.index].videoId
       this.fetchVideo()
     }
