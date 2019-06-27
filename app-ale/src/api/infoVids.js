@@ -13,11 +13,13 @@ export default {
     getPost(postId) {
         return Repository.get(`${resource}/${postId}`);
       },
-    getPlaylist(){
-        return PlayListRep.get()
+    getPlaylist(name){
+      return PlayListRep.get(`${name}/.json`)
     },
-    
-      createPost(payload) {
-        return Repository.post(`${resource}`, payload);
+    getPlaylistYT(id, key){
+      return repos.get(`${resource}.playlists.list?id=${id}&key=${key}&part=${part}`);
+    },
+    createVid(name, id, videoId) {
+        return PlayListRep.put(`${name}/${id}/.json`, videoId);
       }
 }

@@ -106,7 +106,13 @@ export default {
       console.log(data.items[0])
     },
     async fetchPlaylist(){
-      const { data } = await PostsRepository.getPlaylist()
+      const { data } = await PostsRepository.getPlaylist("test")
+    /*  Llamada PUT para agregar nuevo video a lista de reproduccion, 'test' es el nombre de la lista
+        var videoObj = {
+          "videoId" : "dQw4w9WgXcQ"
+        }
+        PostsRepository.createVid('test', data.length, videoObj)*/
+
       // const { data } = await VidRepos.get()
       // this.titulo = data.items[0].snippet.title
       this.videoList=data      

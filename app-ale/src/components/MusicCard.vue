@@ -63,6 +63,8 @@ const PostsRepository = RepositoryFactory.get('videos')
 export default {
   data() {
     return {
+      playlistN: 'test',
+      playlistYT: 'PLOU2XLYxmsIIM9h1Ybw2DuRw6o2fkNMeR',
       repro: false,
       ini: true,
       fini: false,
@@ -101,7 +103,12 @@ export default {
       console.log(this.video)
     },
     async fetchPlaylist(){
-      const { data } = await PostsRepository.getPlaylist()
+      //const { data } = await PostsRepository.getPlaylist(this.playlistN)
+      //console.log(data)
+      const { data } = await PostsRepository.getPlaylistYT(this.playlistYT, this.apikey)
+      console.log(data)
+      
+      
       // const { data } = await VidRepos.get()
       // this.titulo = data.items[0].snippet.title
       this.videoList=data
