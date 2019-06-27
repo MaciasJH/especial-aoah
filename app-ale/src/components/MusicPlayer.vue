@@ -13,7 +13,7 @@
       </template>
       <v-card tile>
         <v-progress-linear
-          :value="50"
+          v-model="porcentaje"
           class="my-0"
           height="3"
         ></v-progress-linear>
@@ -42,9 +42,12 @@
               <v-btn v-if="repro" @click="pausa()" icon>
                 <v-icon>pause</v-icon>
               </v-btn>
+              <v-btn @click="stop()" icon>
+                <v-icon>stop</v-icon>
+              </v-btn>                 
               <v-btn v-if="!repro" @click="play()" icon>
                 <v-icon>play_arrow</v-icon>
-              </v-btn>
+              </v-btn>           
             </v-list-item-icon>
 
             <v-list-item-icon
@@ -75,6 +78,7 @@ export default {
   data() {
     return {
       repro: false,
+      porcentaje: 0,
       index: 0,
       titulo: '',
       apikey: 'AIzaSyAgH8UJ-G09n-qxUfndVVq7b58HGj5BfJ8',
@@ -99,6 +103,7 @@ export default {
       const { data } = await PostsRepository.getVideo(this.videoId, this.apikey)
       // const { data } = await VidRepos.get()
       this.titulo = data.items[0].snippet.title
+      console.log(data.items[0])
     },
     async fetchPlaylist(){
       const { data } = await PostsRepository.getPlaylist()
@@ -116,6 +121,8 @@ export default {
       }
       this.videoId = this.videoList[this.index].videoId
       this.fetchVideo()
+      this.repro=false;
+      this.porcentaje = 0;
     },
     ant(){
       if (this.index >0) {
@@ -123,6 +130,9 @@ export default {
       }
       this.videoId = this.videoList[this.index].videoId
       this.fetchVideo()
+      this.repro=false;
+      this.porcentaje = 0;
+      console.log(this.player)
     },
     pausa(){
       this.repro=false;
@@ -131,6 +141,9 @@ export default {
     play(){
       this.repro=true;
       this.player.playVideo()
+      console.log(this.player.getDuration())
+      console.log(this.player.getCurrentTime())
+      this.loop()
     },
     ready (event) {
       this.player = event.target
@@ -148,7 +161,10 @@ export default {
       this.player.pauseVideo();
     },    
     stop () {
-      this.player.stopVideo();
+      console.log(this.player);
+      this.player.pauseVideo()
+      this.player.seekTo(0, true)
+      this.repro = false;
     },
     ended (event) {
       this.videoId = this.videoList[this.index+1].videoId
@@ -162,6 +178,17 @@ export default {
       this.videoList = arr
       this.index = 0
       this.videoId = this.videoList[this.index].videoId
+    },
+    loop(){
+      var _this = this
+      this.porcentaje = ((_this.player.getCurrentTime() * 100)/_this.player.getDuration())  
+      console.log(this.porcentaje)
+      if (_this.repro == true) {
+        setTimeout(function(){
+          _this.loop();
+        }, 50);
+      } 
+
     }
   }
 }
