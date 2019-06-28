@@ -81,16 +81,9 @@ export default {
       porcentaje: 0,
       index: 0,
       titulo: '',
+      playlistYT: 'PLFs4vir_WsTwEd-nJgVJCZPNL3HALHHpF',      
       apikey: 'AIzaSyAgH8UJ-G09n-qxUfndVVq7b58HGj5BfJ8',
       videoList: [
-        {
-          titulo: 'Test',
-          videoId: 'lG0Ys-2d4MA'
-        },
-        {
-          titulo: 'Test2',
-          videoId: 'y2oy7b4SFgE'          
-        }
       ],
       videoId:'',
     }
@@ -106,7 +99,7 @@ export default {
       console.log(data.items[0])
     },
     async fetchPlaylist(){
-      const { data } = await PostsRepository.getPlaylist("test")
+      const { data } = await PostsRepository.getPlaylistYT(this.playlistYT, this.apikey)
     /*  Llamada PUT para agregar nuevo video a lista de reproduccion, 'test' es el nombre de la lista
         var videoObj = {
           "videoId" : "dQw4w9WgXcQ"
@@ -115,9 +108,27 @@ export default {
 
       // const { data } = await VidRepos.get()
       // this.titulo = data.items[0].snippet.title
-      this.videoList=data      
-      this.shuffle(this.videoList)
+      this.videoList=data.items
+
+      if (this.videoList.length < data.pageInfo.totalResults) {
+        this.fetchPlaylistT(data.nextPageToken)
+      }else{
+        this.videoId=this.videoList[0].contentDetails.videoId
+        this.shuffle(this.videoList)
+      }
     },
+    async fetchPlaylistT(pageToken){
+      const { data } = await PostsRepository.getPlaylistYTT(this.playlistYT, this.apikey, pageToken)
+
+      this.videoList=this.videoList.concat(data.items)
+
+      if (this.videoList.length < data.pageInfo.totalResults) {
+        this.fetchPlaylistT(data.nextPageToken)
+      }else{
+        this.videoId=this.videoList[0].contentDetails.videoId
+        this.shuffle(this.videoList)
+      }
+    },    
     sig(){
       if (this.index < this.videoList.length-1) {
         this.index=this.index+1
@@ -125,7 +136,7 @@ export default {
       else{
         this.shuffle(this.videoList)
       }
-      this.videoId = this.videoList[this.index].videoId
+      this.videoId = this.videoList[this.index].contentDetails.videoId
       this.fetchVideo()
       this.repro=false;
       this.porcentaje = 0;
@@ -134,7 +145,7 @@ export default {
       if (this.index >0) {
         this.index--
       }
-      this.videoId = this.videoList[this.index].videoId
+      this.videoId = this.videoList[this.index].contentDetails.videoId
       this.fetchVideo()
       this.repro=false;
       this.porcentaje = 0;
@@ -173,7 +184,7 @@ export default {
       this.repro = false;
     },
     ended (event) {
-      this.videoId = this.videoList[this.index+1].videoId
+      this.videoId = this.videoList[this.index+1].contentDetails.videoId
       
     },
     shuffle(arr){
@@ -183,7 +194,7 @@ export default {
       }
       this.videoList = arr
       this.index = 0
-      this.videoId = this.videoList[this.index].videoId
+      this.videoId = this.videoList[this.index].contentDetails.videoId
     },
     loop(){
       var _this = this

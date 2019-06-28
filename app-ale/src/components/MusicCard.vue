@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       playlistN: 'test',
-      playlistYT: 'PLOU2XLYxmsIIM9h1Ybw2DuRw6o2fkNMeR',
+      playlistYT: 'PLFs4vir_WsTwEd-nJgVJCZPNL3HALHHpF',
       repro: false,
       ini: true,
       fini: false,
@@ -76,16 +76,7 @@ export default {
         videoId: ''
       },
       apikey: 'AIzaSyAgH8UJ-G09n-qxUfndVVq7b58HGj5BfJ8',
-      videoList: [
-        {
-          titulo: 'Test',
-          videoId: 'lG0Ys-2d4MA'
-        },
-        {
-          titulo: 'Test2',
-          videoId: 'y2oy7b4SFgE'          
-        }
-      ],
+      videoList: [],
     }
   },
   created(){
@@ -105,15 +96,31 @@ export default {
     async fetchPlaylist(){
       //const { data } = await PostsRepository.getPlaylist(this.playlistN)
       //console.log(data)
-      const { data } = await PostsRepository.getPlaylistYT(this.playlistYT, this.apikey)
-      console.log(data)
-      
+      const { data } = await PostsRepository.getPlaylistYT(this.playlistYT, this.apikey)      
       
       // const { data } = await VidRepos.get()
       // this.titulo = data.items[0].snippet.title
-      this.videoList=data
-      this.video.videoId=this.videoList[0].videoId
-      this.fetchVideo()
+      this.videoList=data.items
+      
+      if (this.videoList.length < data.pageInfo.totalResults) {
+        this.fetchPlaylistT(data.nextPageToken)
+      }else{
+        this.video.videoId=this.videoList[0].contentDetails.videoId
+        this.fetchVideo()
+      }
+      
+    },
+    async fetchPlaylistT(pageToken){
+      const { data } = await PostsRepository.getPlaylistYTT(this.playlistYT, this.apikey, pageToken)
+
+      this.videoList=this.videoList.concat(data.items)
+
+      if (this.videoList.length < data.pageInfo.totalResults) {
+        this.fetchPlaylistT(data.nextPageToken)
+      }else{
+        this.video.videoId=this.videoList[0].contentDetails.videoId
+        this.fetchVideo()
+      }
     },
     sig(){
       if (this.index < this.videoList.length-1) {
@@ -123,7 +130,7 @@ export default {
         this.fini=true;
       }
       this.ini=false;
-      this.video.videoId = this.videoList[this.index].videoId
+      this.video.videoId = this.videoList[this.index].contentDetails.videoId
       this.fetchVideo()
     },
     ant(){
@@ -134,7 +141,7 @@ export default {
         this.ini=true
       }
       this.fini=false;
-      this.video.videoId = this.videoList[this.index].videoId
+      this.video.videoId = this.videoList[this.index].contentDetails.videoId
       this.fetchVideo()
     }
   }

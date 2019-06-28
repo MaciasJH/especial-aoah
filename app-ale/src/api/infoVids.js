@@ -17,7 +17,10 @@ export default {
       return PlayListRep.get(`${name}/.json`)
     },
     getPlaylistYT(id, key){
-      return repos.get(`${resource}.playlists.list?id=${id}&key=${key}&part=${part}`);
+      return repos.get(`playlistItems?playlistId=${id}&key=${key}&part=snippet,contentDetails&maxResults=10`);
+    },
+    getPlaylistYTT(id, key, token){
+      return repos.get(`playlistItems?playlistId=${id}&key=${key}&pageToken=${token}&part=snippet,contentDetails&maxResults=10`);
     },
     createVid(name, id, videoId) {
         return PlayListRep.put(`${name}/${id}/.json`, videoId);
