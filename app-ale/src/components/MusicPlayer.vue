@@ -81,7 +81,7 @@ export default {
       porcentaje: 0,
       index: 0,
       titulo: '',
-      playlistYT: 'PLFs4vir_WsTwEd-nJgVJCZPNL3HALHHpF',      
+      playlistYT: 'PLu8LFhYmo24cz4Zj6qd57G3nRqTV1h1IV',      
       apikey: 'AIzaSyAgH8UJ-G09n-qxUfndVVq7b58HGj5BfJ8',
       videoList: [
       ],

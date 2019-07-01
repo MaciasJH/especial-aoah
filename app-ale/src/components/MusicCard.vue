@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       playlistN: 'test',
-      playlistYT: 'PLFs4vir_WsTwEd-nJgVJCZPNL3HALHHpF',
+      playlistYT: 'PLu8LFhYmo24cz4Zj6qd57G3nRqTV1h1IV',
       repro: false,
       ini: true,
       fini: false,
