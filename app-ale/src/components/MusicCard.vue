@@ -2,6 +2,7 @@
   <v-card
     class="mx-auto"
     max-width="400"
+    max-height="560"
   >
     <v-img
       class="white--text"
@@ -13,8 +14,9 @@
 
     <v-card-text>
       <span>Descripción</span><br>
-      <span class="text--primary">
-        <span>{{ video.descripcion }}</span>
+      <span class="text--primary" >
+        <div style="display: block;width: 380px; height: 200px;
+  overflow: auto;">{{ video.descripcion }}</div>
       </span>
     </v-card-text>
 
