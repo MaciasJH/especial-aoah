@@ -15,8 +15,10 @@
     <v-card-text>
       <span>Descripción</span><br>
       <span class="text--primary" >
-        <div style="display: block;width: 420px; height: 150px;
+        <div v-if="video.descripcion !=''" style="display: block;width: 420px; height: 150px;
   overflow: auto;">{{ video.descripcion }}</div>
+        <div v-else style="display: block;width: 420px; height: 150px;
+  overflow: auto;">Sin descripción</div>
       </span>
     </v-card-text>
 
@@ -44,12 +46,20 @@
         >
       <template v-slot:activator="{on}">
       <v-btn
+        icon
+        color="red"
+        @click="salir()"
+      >
+        <v-icon>close</v-icon>
+      </v-btn>         
+      <v-btn
         text
         color="#004c8c"
         v-on="on"
       >
         Ver Video
       </v-btn>
+
       </template>
       <v-card>
         <v-card-title
@@ -80,18 +90,14 @@
         </v-card-actions>
       </v-card>
       </v-dialog>
-      <v-btn
-        icon
-        color="red"
-      >
-        <v-icon>delete</v-icon>
-      </v-btn>      
+   
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import { RepositoryFactory } from '../api/reposFactory'
+import Store from '../store'
 // import { RepositoryFactory } from '../api/RepositoryFactory'
 const PostsRepository = RepositoryFactory.get('videos')
 
@@ -99,11 +105,14 @@ const PostsRepository = RepositoryFactory.get('videos')
 
 
 export default {
-  data() {
+  props:{
+    test: {}
+  }, 
+  data() {  
     return {
       dialog: false,
       playlistN: 'test',
-      playlistYT: 'PLu8LFhYmo24cz4Zj6qd57G3nRqTV1h1IV',
+      playlistYT: '',
       repro: false,
       ini: false,
       fini: false,
@@ -146,6 +155,8 @@ export default {
     }
   },
   created(){
+    console.log('Va creando: '+this.playlistYT+this.test)
+    this.playlistYT = this.test
     this.fetchPlaylist()
   },
   methods: {
@@ -187,6 +198,9 @@ export default {
         this.video.videoId=this.videoList[0].contentDetails.videoId
         this.fetchVideo()
       }
+    },
+    salir(){
+      Store.dispatch('setBandera', false)
     },
     sig(){
       if (this.index < this.videoList.length-1) {
