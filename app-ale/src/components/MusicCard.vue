@@ -1,21 +1,21 @@
 <template>
   <v-card
     class="mx-auto"
-    max-width="400"
-    max-height="560"
+    max-width="440"
+    max-height="520"
   >
     <v-img
       class="white--text"
-      height="200px"
+      height="240px"
       :src="video.thumbnail"
     >
-      <v-card-title class="align-end fill-height">{{ video.titulo}}</v-card-title>
+      <v-card-title class="align-end fill-height">{{ video.titulo }}</v-card-title>
     </v-img>
 
     <v-card-text>
       <span>Descripción</span><br>
       <span class="text--primary" >
-        <div style="display: block;width: 380px; height: 200px;
+        <div style="display: block;width: 420px; height: 150px;
   overflow: auto;">{{ video.descripcion }}</div>
       </span>
     </v-card-text>
@@ -38,12 +38,48 @@
         <v-icon>chevron_right</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
+      <v-dialog
+        v-model="dialog"
+        max-width=860px
+        >
+      <template v-slot:activator="{on}">
       <v-btn
         text
         color="#004c8c"
+        v-on="on"
       >
         Ver Video
       </v-btn>
+      </template>
+      <v-card>
+        <v-card-title
+          class="headline grey lighten-2"
+          primary-title
+          style="font-size=fontS"
+        >
+          {{video.titulo}}
+        </v-card-title>
+        <v-divider></v-divider>
+
+        <youtube style="margin-top:10px;text-align: center" :videoId="video.videoId" 
+    :player-width="anchoV"
+    :player-height="altoV"
+    ></youtube>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog = false"
+          >
+            Cerrar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+      </v-dialog>
       <v-btn
         icon
         color="red"
@@ -65,10 +101,11 @@ const PostsRepository = RepositoryFactory.get('videos')
 export default {
   data() {
     return {
+      dialog: false,
       playlistN: 'test',
       playlistYT: 'PLu8LFhYmo24cz4Zj6qd57G3nRqTV1h1IV',
       repro: false,
-      ini: true,
+      ini: false,
       fini: false,
       index: 0,
       video: {
@@ -79,6 +116,33 @@ export default {
       },
       apikey: 'AIzaSyAgH8UJ-G09n-qxUfndVVq7b58HGj5BfJ8',
       videoList: [],
+    }
+  },
+  computed:{
+    fontS(){
+      switch (this.$vuetify.breakpoint.name){
+        case 'xs': return '3em'
+        case 'sm': return '4em'
+        default: return '5em'
+      }
+    },
+    anchoV(){
+      switch (this.$vuetify.breakpoint.name){
+        case 'xs': return '360px'
+        case 'sm': return '540px'
+        case 'md': return '780px'
+        case 'lg': return '746px'
+        case 'xl': return '1280px'
+      }
+    },
+    altoV(){
+      switch (this.$vuetify.breakpoint.name){
+        case 'xs': return '180px'
+        case 'sm': return '260px'
+        case 'md': return '400px'
+        case 'lg': return '420px'
+        case 'xl': return '720px'
+      }
     }
   },
   created(){
@@ -129,7 +193,7 @@ export default {
         this.index=this.index+1
       }
       else{
-        this.fini=true;
+        this.index=0;
       }
       this.ini=false;
       this.video.videoId = this.videoList[this.index].contentDetails.videoId
@@ -139,13 +203,13 @@ export default {
       if (this.index >0) {
         this.index--
       }
-      if(this.index ==0){
-        this.ini=true
+      else{
+        this.index=this.videoList.length-1
       }
       this.fini=false;
       this.video.videoId = this.videoList[this.index].contentDetails.videoId
       this.fetchVideo()
-    }
+    },
   }
 }
 </script>
