@@ -22,6 +22,9 @@ export default {
     getPlaylistYTT(id, key, token){
       return repos.get(`playlistItems?playlistId=${id}&key=${key}&pageToken=${token}&part=snippet,contentDetails&maxResults=10`);
     },
+    getPlaylistYTP(id, key){
+      return repos.get(`playlists?id=${id}&key=${key}&part=snippet,contentDetails&maxResults=10`);
+    },
     createVid(name, id, videoId) {
         return PlayListRep.put(`${name}/${id}/.json`, videoId);
       }
