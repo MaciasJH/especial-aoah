@@ -1,9 +1,19 @@
 <template>
 <v-container>
+  <MusicCard v-if="bandera" :test="playlistId" class="mb-4">
+  </MusicCard>
+  <div v-if="bandera">
+    Más playlists
+  </div>
+  <div v-else>
+    Playlists
+  </div>
+  <v-divider>
+  </v-divider>
   <v-card
-    v-if="!bandera"
+    
     max-width="900"
-    class="mx-auto"
+    class="mx-auto mt-2"
   >
     <v-container
       grid-list-md
@@ -21,27 +31,59 @@
             sm6
             md3
             xl12
-          >
-            <v-item v-slot:default="{ active, toggle }">
+          >De: {{item.snippet.channelTitle}}
+            <v-hover  v-slot:default="{ active, toggle, hover }">
+              <v-card
+              :elevation="hover ? 12 : 2"
+              :class="{ 'on-hover': hover }"
+            >
               <v-img
                 :src="item.snippet.thumbnails.high.url"
                 :height="optionH"
                 @click="showCard(item)"
               >
+              <v-expand-transition>
+                <div  v-if="hover"
+                class="d-flex black darken-2 v-card--reveal display-3 white--text"
+                style="opacity: 0.9">
                 <v-card-title class="white--text align-end fill-height" v-bind:style="{fontSize: fontS}">
-                  <v-text><span class="headline  lighten-2">{{item.snippet.title}}</span></v-text>
+                  <v-layout
+                    fill-height
+                    column
+                    justify-space-between
+                  >
+                  <span class="headline  lighten-2">{{item.snippet.title}}</span>
+                  <div class="align-self-center">
+                      <v-btn
+                        v-if="hover"                     
+                      >
+                        <v-icon
+                        class="md-light">
+                          launch</v-icon>
+                      </v-btn>
+                    </div>  
+                    
+                  </v-layout>  
+                </v-card-title></div></v-expand-transition>
+                
+                <v-card-title class="white--text align-end fill-height" v-bind:style="{fontSize: fontS}">
+
+                  <span class="headline  lighten-2">{{item.snippet.title}}</span>
                   
-                </v-card-title>                
+                </v-card-title>  
+                    
+                       
               </v-img>
-            </v-item>
+              
+              </v-card>
+            </v-hover>
           </v-flex>
         </v-layout>
       </v-item-group>
     </v-container>
   </v-card>
 
-  <MusicCard v-if="bandera" :test="playlistId">
-  </MusicCard>
+
 </v-container>
 </template>
 
