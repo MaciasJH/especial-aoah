@@ -9,15 +9,18 @@
       height="240px"
       :src="video.thumbnail"
     >
-      <v-card-title class="align-end fill-height">{{ video.titulo }}</v-card-title>
+      <v-card-title 
+      v-bind:style="{ 'font-size': fontS }"
+      class="align-end fill-height" 
+       >{{ video.titulo }}</v-card-title>
     </v-img>
 
     <v-card-text>
       <span>Descripción</span><br>
       <span class="text--primary" >
-        <div v-if="video.descripcion !=''" style="display: block;width: 420px; height: 150px;
+        <div v-if="video.descripcion !=''" style="display: block;width: auto; height: 150px;
   overflow: auto;">{{ video.descripcion }}</div>
-        <div v-else style="display: block;width: 420px; height: 150px;
+        <div v-else style="display: block;width: auto; height: 150px;
   overflow: auto;">Sin descripción</div>
       </span>
     </v-card-text>
@@ -65,7 +68,7 @@
         <v-card-title
           class="headline grey lighten-2"
           primary-title
-          style="font-size=fontS"
+          
         >
           {{video.titulo}}
         </v-card-title>
@@ -130,9 +133,9 @@ export default {
   computed:{
     fontS(){
       switch (this.$vuetify.breakpoint.name){
-        case 'xs': return '3em'
-        case 'sm': return '4em'
-        default: return '5em'
+        case 'xs': return '20px'
+        case 'sm': return '24px'
+        default: return 'auto'
       }
     },
     anchoV(){

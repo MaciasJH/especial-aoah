@@ -17,33 +17,20 @@
           <v-flex
             v-for="(item, i) in items"
             :key="i"
-            xs2
+            xs12
+            sm6
             md3
+            xl12
           >
             <v-item v-slot:default="{ active, toggle }">
               <v-img
-                :src="item.snippet.thumbnails.medium.url"
-                height="120"
+                :src="item.snippet.thumbnails.high.url"
+                :height="optionH"
                 @click="showCard(item)"
               >
-                <v-card-title class="title white--text fill-height">
-                  <v-layout
-                    fill-height
-                    column
-                    justify-space-between
-                  >
-                    <p class="mt-3 subheading text-xs-left">test1</p>
-
-                    <div>
-                      <p class="ma-0 body-1 font-weight-bold font-italic text-xs-left">
-                        test2
-                      </p>
-                      <p class="caption font-weight-medium font-italic text-xs-left">
-                        test3
-                      </p>
-                    </div>
-
-                  </v-layout>
+                <v-card-title class="white--text align-end fill-height" v-bind:style="{fontSize: fontS}">
+                  <v-text><span class="headline  lighten-2">{{item.snippet.title}}</span></v-text>
+                  
                 </v-card-title>                
               </v-img>
             </v-item>
@@ -90,7 +77,23 @@ export default {
     },
     bandera(){
       return Store.state.bandera
-    }
+    },
+    optionH(){
+      switch (this.$vuetify.breakpoint.name){
+        case 'xs': return '180px'
+        case 'sm': return '160px'
+        case 'md': return '160px'
+        case 'lg': return '120px'
+        case 'xl': return '220px'
+      }
+    },
+    fontS(){
+      switch (this.$vuetify.breakpoint.name){
+        case 'xs': return '26px'
+        case 'sm': return '32px'
+        default: return '18px'
+      }
+    }    
   },
   methods:{
       async fetchPlaylists(){
